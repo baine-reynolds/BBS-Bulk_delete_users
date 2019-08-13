@@ -22,7 +22,10 @@ def read_list_of_users_to_del():
 
 def delete_users(user):
 	params = {'name': user}
-	r = Vars.api_session.delete(Vars.source_url + '/rest/api/1.0/admin/users', params=params, headers=Vars.headers)
+	try:
+		r = Vars.api_session.delete(Vars.source_url + '/rest/api/1.0/admin/users', params=params, headers=Vars.headers)
+	except requests.exceptions.SSLError:
+		r = Vars.api_session.delete(Vars.source_url + '/rest/api/1.0/admin/users', params=params, headers=Vars.headers, verify=False)
 
 def main():
 	get_creds()
